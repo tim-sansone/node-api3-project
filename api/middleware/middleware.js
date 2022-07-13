@@ -1,5 +1,12 @@
 const { getById } = require('../users/users-model')
 
+module.exports = {
+  logger,
+  validateUserId,
+  validateUser,
+  validatePost
+}
+
 function logger(req, res, next) {
   console.log(`${new Date()} ${req.method} ${req.url}`);
   next();
@@ -26,14 +33,6 @@ function validatePost(req, res, next) {
   if(typeof req.body.text !== 'string' || req.body.text.trim() === ''){
     next({ status: 400, message: "missing required text field"})
   }
+  req.post = { text: req.body.text.trim()}
   next()
-}
-
-// do not forget to expose these functions to other modules
-
-module.exports = {
-  logger,
-  validateUserId,
-  validateUser,
-  validatePost
 }
